@@ -574,14 +574,6 @@ class SpeedCADGame {
   animate() {
     requestAnimationFrame(() => this.animate());
 
-    // Rotate holographic ghost slightly to emphasize 3D blueprint
-    if (this.ghostMesh) {
-      this.ghostMesh.rotation.y += 0.003;
-    }
-    if (this.playerMesh) {
-      this.playerMesh.rotation.y = this.ghostMesh.rotation.y;
-    }
-
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
   }
