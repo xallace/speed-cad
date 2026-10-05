@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpeedCAD: Blueprint Blitz – 3D CAD Speedrunner</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Three.js & OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header id="game-header">
+    <div class="brand-title-wrap">
+      <span class="brand-icon">⚡</span>
+      <h1 class="brand-title">SPEED-CAD</h1>
+      <span class="badge-speedrun">BLUEPRINT BLITZ · ANY%</span>
+    </div>
+
+    <div class="header-stats">
+      <button class="header-btn" id="btn-sound-toggle">🔊 Sound</button>
+      <button class="header-btn" id="btn-restart">↺ Reset Run [R]</button>
+    </div>
+  </header>
+
+  <!-- Main Game Arena -->
+  <main id="main-arena">
+
+    <!-- Left: LiveSplit Tracker -->
+    <aside id="livesplit-panel">
+      <div class="timer-box">
+        <div class="timer-label">Laufzeit (Any%)</div>
+        <div class="main-clock" id="run-timer">00:00.000</div>
+        <div class="timer-delta" id="run-delta">+0.00s</div>
+      </div>
+
+      <div class="splits-table">
+        <div class="split-item" id="split-row-0">
+          <span class="split-name">1. Kolben / Welle</span>
+          <span class="split-time">--:--.---</span>
+        </div>
+        <div class="split-item" id="split-row-1">
+          <span class="split-name">2. Stirnrad (Evolvente)</span>
+          <span class="split-time">--:--.---</span>
+        </div>
+        <div class="split-item" id="split-row-2">
+          <span class="split-name">3. Rohrflansch</span>
+          <span class="split-time">--:--.---</span>
+        </div>
+        <div class="split-item" id="split-row-3">
+          <span class="split-name">4. Aero-Konsole</span>
+          <span class="split-time">--:--.---</span>
+        </div>
+        <div class="split-item" id="split-row-4">
+          <span class="split-name">5. Avionik-Gehäuse</span>
+          <span class="split-time">--:--.---</span>
+        </div>
+      </div>
+
+      <div class="pb-footer">
+        <span>Personal Best:</span>
+        <span class="pb-val" id="pb-display">--:--.---</span>
+      </div>
+    </aside>
+
+    <!-- Center: 3D Viewport & HUD -->
+    <section id="viewport-section">
+      <div id="cad-canvas-wrap"></div>
+
+      <!-- Top HUD -->
+      <div class="hud-overlay hud-top">
+        <div class="stage-badge-box">
+          <div class="stage-idx" id="stage-indicator">STUFE 1 / 5</div>
+          <div class="stage-name" id="stage-name">Hydraulik-Kolben</div>
+          <div class="stage-desc" id="stage-desc">Maße auf Blueprint-Toleranz trimmen.</div>
+        </div>
+
+        <!-- Target Blueprint Card -->
+        <div class="blueprint-card">
+          <div class="blueprint-card-title">📐 Blueprint Ziel-Soll</div>
+          <div id="blueprint-specs">
+            <!-- Injected by game.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Tolerance Pill -->
+      <div class="hud-overlay hud-bottom-center">
+        <div class="tolerance-pill out" id="tolerance-badge">AUSSERHALB: ±12.0 mm</div>
+      </div>
+
+      <!-- Penalty Banner Flash -->
+      <div id="penalty-banner">+3.00s AUSSCHUSS-STRAFE!</div>
+    </section>
+
+    <!-- Right: Real-time Controls & Commit -->
+    <aside id="controls-panel">
+      <div class="controls-header">Parametrische Regler</div>
+      
+      <div id="stage-controls">
+        <!-- Injected by game.js -->
+      </div>
+
+      <div class="commit-wrap">
+        <button id="btn-commit">⚡ FORGE & COMMIT [SPACE]</button>
+      </div>
+
+      <div class="hotkey-hints">
+        <strong>Speedrun-Steuerung:</strong><br>
+        • <kbd>1</kbd> - <kbd>4</kbd> : Parameter wählen<br>
+        • <kbd>A</kbd> / <kbd>D</kbd> oder <kbd>&larr;</kbd> / <kbd>&rarr;</kbd> : Wert anpassen<br>
+        • <kbd>Shift</kbd> + Pfeil : 5-fache Schrittweite<br>
+        • <kbd>Leertaste</kbd> : Bauteil schmieden (Commit)<br>
+        • <kbd>R</kbd> : Schneller Neustart
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Screen flash overlay for success / error -->
+  <div id="screen-flash"></div>
+
+  <!-- Victory & PB Modal -->
+  <div class="modal-overlay" id="victory-modal">
+    <div class="victory-card">
+      <div class="victory-title">🏁 RUN COMPLETE!</div>
+      <div class="rank-badge" id="final-rank">S+</div>
+      <div class="final-time" id="final-time-val">00:42.185</div>
+      <div class="pb-status" id="final-pb-status">🏆 NEUER PERSONAL BEST!</div>
+      <div style="font-size: 0.85rem; color: #8892b0; margin-bottom: 24px;" id="final-penalties">Fehlversuche: 0</div>
+      <button class="header-btn" onclick="window.speedCad.restartRun()" style="width: 100%; padding: 12px; font-weight: 700; background: var(--cyan); color: #080a0f;">
+        NÄCHSTER RUN [R]
+      </button>
+    </div>
+  </div>
+
+  <!-- Game Scripts -->
+  <script src="js/audio.js"></script>
+  <script src="js/cad-parts.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
